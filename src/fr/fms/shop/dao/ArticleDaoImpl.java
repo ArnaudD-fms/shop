@@ -3,10 +3,7 @@ package fr.fms.shop.dao;
 import fr.fms.shop.config.DatabaseConnection;
 import fr.fms.shop.model.Article;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +13,30 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public void save(Article article) {
 
+        String sql = "INSERT INTO T_Articles (Description, Brand, UnitaryPrice) VALUES (?, ?, ?)";
+        try (
+                Connection connection = DatabaseConnection.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
+                        sql,
+                        Statement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setString(1, article.getDescription());
+            statement.setString(2, article.getBrand());
+            statement.setBigDecimal(3, article.getUnitaryPrice());
+
+            statement.executeUpdate();
+
+            try (ResultSet resultSet = statement.getGeneratedKeys()){
+
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("IdArticle");
+                    article.setId(id);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

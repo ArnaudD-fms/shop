@@ -2,6 +2,7 @@ import fr.fms.shop.dao.ArticleDao;
 import fr.fms.shop.dao.ArticleDaoImpl;
 import fr.fms.shop.model.Article;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,11 +16,14 @@ public class Main {
 //
 //        article = articleDao.findById(2);
 //        System.out.println(article.getDescription() + " " + article.getBrand() + " " + article.getUnitaryPrice());
+//
+//        List<Article> articles = articleDao.findAll();
+//
+//        for (Article article : articles) {
+//            System.out.println(article.getDescription() + " " + article.getBrand() + " " + article.getUnitaryPrice());
+//        }
 
-        List<Article> articles = articleDao.findAll();
-
-        for (Article article : articles) {
-            System.out.println(article.getDescription() + " " + article.getBrand() + " " + article.getUnitaryPrice());
-        }
+        Article article = new Article("test_description", "test_brand", new BigDecimal("99.99"));
+        articleDao.save(article);
     }
 }
