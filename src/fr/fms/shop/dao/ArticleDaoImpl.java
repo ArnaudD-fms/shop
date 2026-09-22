@@ -93,6 +93,21 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public void update(Article article) {
 
+        String sql = "UPDATE T_Articles SET Description = ?, Brand = ?, UnitaryPrice = ? WHERE IdArticle = ?";
+        try (
+                Connection connection = DatabaseConnection.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
+        ) {
+            statement.setString(1, article.getDescription());
+            statement.setString(2, article.getBrand());
+            statement.setBigDecimal(3, article.getUnitaryPrice());
+            statement.setInt(4, article.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
