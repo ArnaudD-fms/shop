@@ -26,12 +26,14 @@ public class Main {
 //        Article article = new Article("test_description", "test_brand", new BigDecimal("99.99"));
 //        articleDao.save(article);
 //
-        Article article = new Article(
-                "update_description",
-                "update_brand",
-                new BigDecimal("19.99"));
-        article.setId(13);
+//        Article article = new Article(
+//                "update_description",
+//                "update_brand",
+//                new BigDecimal("19.99"));
+//        article.setId(13);
+//
+//        articleDao.update(article);
 
-        articleDao.update(article);
+        articleDao.delete(13);
     }
 }

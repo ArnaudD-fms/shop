@@ -13,7 +13,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public void save(Article article) {
 
-        String sql = "INSERT INTO T_Articles (Description, Brand, UnitaryPrice) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO t_articles (Description, Brand, UnitaryPrice) VALUES (?, ?, ?)";
         try (
                 Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(
@@ -93,10 +93,10 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public void update(Article article) {
 
-        String sql = "UPDATE T_Articles SET Description = ?, Brand = ?, UnitaryPrice = ? WHERE IdArticle = ?";
+        String sql = "UPDATE t_articles SET Description = ?, Brand = ?, UnitaryPrice = ? WHERE IdArticle = ?";
         try (
                 Connection connection = DatabaseConnection.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql);
+                PreparedStatement statement = connection.prepareStatement(sql)
         ) {
             statement.setString(1, article.getDescription());
             statement.setString(2, article.getBrand());
@@ -112,6 +112,19 @@ public class ArticleDaoImpl implements ArticleDao {
 
     @Override
     public void delete(int id) {
+
+        String sql = "DELETE FROM t_articles WHERE IdArticle = ?";
+        try (
+                Connection connection = DatabaseConnection.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
