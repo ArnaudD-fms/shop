@@ -20,7 +20,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public Article findById(int id) throws SQLException {
 
-        String sql = "SELECT * FROM article WHERE id = ?";
+        String sql = "SELECT * FROM t_articles WHERE IdArticle = ?";
         try (
                 Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)
@@ -29,17 +29,20 @@ public class ArticleDaoImpl implements ArticleDao {
 
             try (ResultSet resultSet = statement.executeQuery()) {
 
-                Article article = new Article(
-                        resultSet.getString("Description"),
-                        resultSet.getString("Brand"),
-                        resultSet.getBigDecimal("UnitaryPrice")
-                );
+                if (resultSet.next()) {
+                    Article article = new Article(
+                            resultSet.getString("Description"),
+                            resultSet.getString("Brand"),
+                            resultSet.getBigDecimal("UnitaryPrice")
+                    );
 
-                article.setId(resultSet.getInt("IdArticle"));
-                article.setIdCategory(resultSet.getInt("IdCategory"));
+                    article.setId(resultSet.getInt("IdArticle"));
+                    article.setIdCategory(resultSet.getInt("IdCategory"));
 
-                return article;
+                    return article;
+                }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

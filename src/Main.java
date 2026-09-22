@@ -1,19 +1,18 @@
-import fr.fms.shop.config.DatabaseConnection;
+import fr.fms.shop.dao.ArticleDao;
+import fr.fms.shop.dao.ArticleDaoImpl;
+import fr.fms.shop.model.Article;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-        try (Connection connection = DatabaseConnection.getConnection()) {
+        ArticleDao articleDao = new ArticleDaoImpl();
 
-            System.out.println("Connexion à MariaDB réussie !");
+        Article article = articleDao.findById(1);
+        System.out.println(article.getDescription() + " " + article.getBrand() + " " + article.getUnitaryPrice());
 
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-
-        }
+        article = articleDao.findById(2);
+        System.out.println(article.getDescription() + " " + article.getBrand() + " " + article.getUnitaryPrice());
     }
 }
